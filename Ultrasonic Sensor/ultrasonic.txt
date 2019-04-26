@@ -1,0 +1,32 @@
+int trigPin = 13;
+int echoPin = 12;
+int led = 6;
+
+void setup()
+{
+  Serial.begin (9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT_PULLUP);
+  pinMode(led, OUTPUT);
+
+}
+
+void loop()
+{
+  long duration, distance,e,f;
+  digitalWrite(trigPin, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2)*.0343;
+  
+  Serial.print("distance = ");
+  Serial.print(distance);
+  Serial.println("cm");
+  e=constrain(distance,0,30);
+  f=map(e,0,30,255,0);
+  analogWrite(led,f);
+  delay(50);
+}
