@@ -1,32 +1,36 @@
-int trigPin = 13;
-int echoPin = 12;
-int led = 6;
+// defines pin numbers
+int trigPin = 2;
+int echoPin = 3;
 
-void setup()
-{
-  Serial.begin (9600);
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT_PULLUP);
-  pinMode(led, OUTPUT);
+// defines variables
+long duration;
+int distance;
 
+void setup() {
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600); // Starts the serial communication
 }
 
-void loop()
-{
-  long duration, distance,e,f;
-  digitalWrite(trigPin, LOW);  // Added this line
-  delayMicroseconds(2); // Added this line
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10); // Added this line
+void loop() {
+
+  // Clears the trigPin
   digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
-  distance = (duration/2)*.0343;
-  
-  Serial.print("distance = ");
-  Serial.print(distance);
-  Serial.println("cm");
-  e=constrain(distance,0,30);
-  f=map(e,0,30,255,0);
-  analogWrite(led,f);
-  delay(50);
+
+  // Calculating the distance
+  distance = duration * 0.034 / 2;
+
+  // Prints the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.println(distance);
+  delay(10);
 }
