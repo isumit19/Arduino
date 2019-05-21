@@ -37,23 +37,9 @@ void loop() {
  PWM_v2 = pulseIn(PWM_PIN2,HIGH);
  
  v1 = constrain(PWM_v1, low1, high1);            
- v2 = constrain(PWM_v2, low2, high2);             
+ v2 = constrain(PWM_v2, low2, high2);  
  
- if(v2>middle2)
-  {
-      digitalWrite(DM2_F, HIGH);
-      digitalWrite(DM2_B, LOW);
-      speed2 = map(v2,middle2,high2,0,255);
-  }
- else
-  {
-      digitalWrite(DM2_F, LOW);
-      digitalWrite(DM2_B, HIGH);
-      speed2 = map(v2,low2,middle2,255,0);
-  }
-  
-  analogWrite(M2,speed2);
-  
+ 
  if(v1>middle1)
   {
     digitalWrite(DM1_F, HIGH);
@@ -68,8 +54,22 @@ void loop() {
   }
 
 analogWrite(M1,speed1);
-
-
+ 
+ if(v2>middle2)
+  {
+      digitalWrite(DM2_F, HIGH);
+      digitalWrite(DM2_B, LOW);
+      speed2 = map(v2,middle2,high2,0,255);
+  }
+ else
+  {
+      digitalWrite(DM2_F, LOW);
+      digitalWrite(DM2_B, HIGH);
+      speed2 = map(v2,low2,middle2,255,0);
+  }
+  
+analogWrite(M2,speed2);
+  
  if(PWM_v1==0 && PWM_v2==0)
   {
   analogWrite(M1,0);
