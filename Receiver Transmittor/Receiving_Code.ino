@@ -10,7 +10,7 @@ int DM1_B = 7;                          //Backward                      Motor 1 
 int DM2_F = 10;                         //Forward
 int DM2_B = 9;                          //Backward                      Motor 2 Direction Pins
 
-int low1 = 1350, middle1 = 1550, high1 = 1740;
+int low1 = 1350, middle1 = 1550, high1 = 1740;           //min and max value that can be received from receiver
 int low2 = 1140, middle2 = 1440,  high2 = 1730;
 
 int speed1, speed2;                     //Speeds 
@@ -37,7 +37,7 @@ void loop() {
  PWM_v2=pulseIn(PWM_PIN2,HIGH);
  
  v1=constrain(PWM_v1, low1, high1);            
- v2=constrain(PWM_v2, low2, high2);             //min and max value that can be received from receiver
+ v2=constrain(PWM_v2, low2, high2);             
  
  if(v2>middle2)
   {
