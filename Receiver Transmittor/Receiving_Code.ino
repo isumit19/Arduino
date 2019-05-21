@@ -33,11 +33,11 @@ void setup() {
  
 void loop() {
   
- PWM_v1=pulseIn(PWM_PIN1,HIGH);
- PWM_v2=pulseIn(PWM_PIN2,HIGH);
+ PWM_v1 = pulseIn(PWM_PIN1,HIGH);
+ PWM_v2 = pulseIn(PWM_PIN2,HIGH);
  
- v1=constrain(PWM_v1, low1, high1);            
- v2=constrain(PWM_v2, low2, high2);             
+ v1 = constrain(PWM_v1, low1, high1);            
+ v2 = constrain(PWM_v2, low2, high2);             
  
  if(v2>middle2)
   {
