@@ -1,5 +1,5 @@
 int PWM_PIN1 = 3;             
-int PWM_PIN2 = 2;                     // Pins for connecting receiver signals with Arduino Board
+int PWM_PIN2 = 2;                     // Connecting receiver signal Pins with Arduino Board
 
 int M1 = 6;                             //Motor 1
 int M2 = 11;                            //Motor 2
