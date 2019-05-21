@@ -1,73 +1,79 @@
-byte PWM_PIN1 = 3;
-byte PWM_PIN2 = 2;
-int f1;
-int f2;
-int m1=6;
-int d1l=7;
-int d1h=8;
-int m2=11;
-int d2h=10;
-int d2l=9;
-int t1;
-int t2;
- 
-int pwm_value1;
-int pwm_value2;
+int PWM_PIN1 = 3;             
+int PWM_PIN2 = 2;                     // Pins for connecting receiver signals with Arduino Board
+
+int M1 = 6;                             //Motor 1
+int M2 = 11;                            //Motor 2
+
+int DM1_F = 8;                          //Forward
+int DM1_B = 7;                          //Backward                      Motor 1 Direction Pins
+
+int DM2_F = 10;                         //Forward
+int DM2_B = 9;                          //Backward                      Motor 2 Direction Pins
+
+int low1 = 1350, middle1 = 1550, high1 = 1740;
+int low2 = 1140, middle2 = 1440,  high2 = 1730;
+
+int speed1, speed2;                     //Speeds 
+int PWM_v1, PWM_v2;                     //PWM Value received from Receiver Pins
+int v1, v2;                             //Variables
  
 void setup() {
+  
   pinMode(PWM_PIN1, INPUT);
-  pinMode(PWM_PIN2,INPUT);
-  pinMode(d1h,OUTPUT);
-  pinMode(d1l,OUTPUT);
-  pinMode(d2h,OUTPUT);
-  pinMode(d2l,OUTPUT);
-  pinMode(13,OUTPUT);
-  pinMode(13,HIGH);
-  pinMode(m1,OUTPUT);
-  pinMode(m2,OUTPUT);
+  pinMode(PWM_PIN2, INPUT);
+  pinMode(DM1_F, OUTPUT);
+  pinMode(DM1_B, OUTPUT);
+  pinMode(DM2_F, OUTPUT);
+  pinMode(DM2_B, OUTPUT);
+  pinMode(M1, OUTPUT);
+  pinMode(M2, OUTPUT);
+  
   Serial.begin(9600);
 }
  
 void loop() {
- pwm_value1=pulseIn(PWM_PIN1,HIGH);
- pwm_value2=pulseIn(PWM_PIN2,HIGH);
- t1=constrain(pwm_value1,1350,1740);
- t2=constrain(pwm_value2,1140,1730);
-  Serial.println(t1);
- 
   
+ PWM_v1=pulseIn(PWM_PIN1,HIGH);
+ PWM_v2=pulseIn(PWM_PIN2,HIGH);
  
-if(t2>1440)
+ v1=constrain(PWM_v1, low1, high1);            
+ v2=constrain(PWM_v2, low2, high2);             //min and max value that can be received from receiver
+ 
+ if(v2>middle2)
   {
-      digitalWrite(d2h,HIGH);
-      digitalWrite(d2l,LOW);
-      f1=map(t2,1440,1730,0,255);
+      digitalWrite(DM2_F, HIGH);
+      digitalWrite(DM2_B, LOW);
+      speed2 = map(v2,middle2,high2,0,255);
   }
  else
   {
-    digitalWrite(d2h,LOW);
-    digitalWrite(d2l,HIGH);
-    f1=map(t2,1140,1440,255,0);
+      digitalWrite(DM2_F, LOW);
+      digitalWrite(DM2_B, HIGH);
+      speed2 = map(v2,low2,middle2,255,0);
   }
-  analogWrite(m2,f1);
-
   
-if(t1>1550)
-{
-  digitalWrite(d1h,HIGH);
-  digitalWrite(d1l,LOW);
-  f2=map(t1,1740,1550,255,0);
-}
-else
-{
-  digitalWrite(d1h,LOW);
-  digitalWrite(d1l,HIGH);
-  f2=map(t1,1350,1550,255,0);
-}
-analogWrite(m1,f2);
-if(pwm_value1==0&&pwm_value2==0)
-{
-  analogWrite(m1,0);
-  analogWrite(m2,0);
-}
+  analogWrite(M2,speed2);
+  
+ if(v1>middle1)
+  {
+    digitalWrite(DM1_F, HIGH);
+    digitalWrite(DM1_B, LOW);
+    speed1 = map(v1,middle1,high1,0,255);
+  }
+ else
+  {
+    digitalWrite(DM1_F, LOW);
+    digitalWrite(DM1_B, HIGH);
+    speed1 = map(v1,low1,middle1,255,0);
+  }
+
+analogWrite(M1,speed1);
+
+
+ if(PWM_v1==0 && PWM_v2==0)
+  {
+  analogWrite(M1,0);
+  analogWrite(M2,0);
+  }
+  
 }
